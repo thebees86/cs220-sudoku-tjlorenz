@@ -62,9 +62,9 @@ public class SudokuGUI extends JFrame {
     private int height = DOUBLE_MARGIN_SIZE + squareSize * numRows;  
     
     // for lots of fun, too much fun really, try "Wingdings"
-    private static Font FONT = new Font("Verdana", Font.BOLD, 40);
-    private static Color FONT_COLOR = Color.BLACK;
-    private static Color BACKGROUND_COLOR = Color.GRAY;
+    private static Font FONT = new Font("Comic Sans", Font.BOLD, 40);
+    private static Color FONT_COLOR = Color.MAGENTA;
+    private static Color BACKGROUND_COLOR = Color.CYAN;
     
     // the canvas is a panel that gets drawn on
     private JPanel panel;
@@ -94,7 +94,9 @@ public class SudokuGUI extends JFrame {
 				int digit = key - '0';
 				System.out.println(key);
 				if (currentRow == row && currentCol == col) {
-					sudoku.set(row, col, digit);
+					boolean valid = sudoku.set(row, col, digit);
+					if(!valid)
+						JOptionPane.showMessageDialog(null, "That is not a legal value!");
 				}
 				update();
 			}
@@ -113,7 +115,8 @@ public class SudokuGUI extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//System.out.printf("row %d, col %d, %s\n", row, col, e);
-			JButton button = (JButton)e.getSource();
+			//JButton button = (JButton)e.getSource();
+			//What are the above 2 lines for? I assume they're remnants of an earlier version, and commenting them didn't affect the program
 			
 			if (row == currentRow && col == currentCol) {
 				currentRow = -1;
@@ -162,7 +165,7 @@ public class SudokuGUI extends JFrame {
     				buttons[row][col].setForeground(Color.RED);
     				// I can't figure out how to change the background color of a grid square, ugh
     				// Maybe I should have used JLabel instead of JButton?
-    				buttons[row][col].setBackground(Color.CYAN);
+    				buttons[row][col].setBackground(Color.YELLOW);
     				setText(row, col, "_");
     			} else {
     				buttons[row][col].setForeground(FONT_COLOR);
@@ -272,7 +275,6 @@ public class SudokuGUI extends JFrame {
         this.addMouseMotionListener(a);
         this.addMouseListener(a);
     }
-    
     
     private void createKeyboardHandlers() {
     	for (int r=0; r<buttons.length; r++) {
